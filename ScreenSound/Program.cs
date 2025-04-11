@@ -9,7 +9,7 @@ namespace ScreenSound
         {
             //List<string> listaDasBandas = new List<string>();
             Dictionary<string, List<int>> bandasDictionary = new Dictionary<string, List<int>>();
-            bandasDictionary.Add("Pink Floyd", new List<int> { 10, 9, 5 });
+            bandasDictionary.Add("Pink Floyd", new List<int> { 10, 9, 5 ,7});
             bandasDictionary.Add("The Beatles", new List<int>());
 
             void ExibirLogo()
@@ -88,12 +88,41 @@ namespace ScreenSound
                     Console.WriteLine($"\nA nota {nota} foi adicionada a banda {nomeDaBanda} com sucesso");
                     Console.WriteLine("Retornando ao menu principal");
                     Thread.Sleep(2000);
+                    Console.Clear();
+                    ExibirOpcoesDeMenu();
                 }
                 else
                 {
                     Thread.Sleep(1000);
                     Console.WriteLine($"\nA banda {nomeDaBanda} não foi registrada!");
                     Console.WriteLine("Aperte qualquer tecla para voltar ao menu principal");
+                    Console.ReadKey();
+                    Console.Clear();
+                    ExibirOpcoesDeMenu();
+                }
+            }
+
+            void ExibirMediaDaBanda()
+            {
+                Console.Clear();
+                ExibirTituloDaOpcao("Exibir média da banda");
+                Console.Write("Digite qual banda você deseja ver a média: ");
+                string nomeDaBanda = Console.ReadLine()!;
+                if (bandasDictionary.ContainsKey(nomeDaBanda))
+                {
+                    float media = 0;
+                    foreach (var nota in bandasDictionary[nomeDaBanda])
+                    {
+                        media += nota;
+                    }
+
+                    media = media / bandasDictionary[nomeDaBanda].Count;
+                    Console.WriteLine($"\nA média de notas da banda {nomeDaBanda} é {media.ToString("F1")}");
+                }
+                else
+                {
+                    Console.WriteLine($"A banda {nomeDaBanda} não está registrada");
+                    Console.WriteLine("\nAperte qualquer botão para voltar ao menu principal");
                     Console.ReadKey();
                     Console.Clear();
                     ExibirOpcoesDeMenu();
@@ -123,11 +152,10 @@ Digite -1 para sair");
                         AvaliarBanda();
                         break;
                     case 4:
-                        Console.WriteLine("Exibir média de notas de uma banda");
+                        ExibirMediaDaBanda();
                         break;
                     case -1:
                         Console.WriteLine("Saindo...");
-                        Environment.Exit(0);
                         break;
                     default:
                         Console.WriteLine("Opção inválida. Tente novamente.");
